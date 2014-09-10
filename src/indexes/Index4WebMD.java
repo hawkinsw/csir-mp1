@@ -22,6 +22,7 @@ import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
 import structures.Post;
+import utils.Utils;
 import threads.Thread4WebMD;
 
 /**
@@ -56,7 +57,19 @@ public class Index4WebMD extends IndexBase {
 
 				Thread4WebMD thread = new Thread4WebMD();
 				thread.parseThreadStartPage(discussionURL);
-				thread.save2Json("./data/json/WebMD/"+ title+"/"+discussionId+".json");
+				thread.save2Json("./data/json/WebMD/" +
+					title +
+					"/" +
+					Utils.getComputingID() +
+					"-" +
+					discussionId +
+					".json");
+				thread.save2Html("./data/HTML/WebMD/" +
+					title +
+					"/" +
+					Utils.getComputingID() +
+					"-" +
+					discussionId);
 
 				try {
 					Thread.sleep(2000);
