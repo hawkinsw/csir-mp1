@@ -19,11 +19,6 @@ import java.lang.System;
  * sample code for parsing html files from WebMD forum and extract threaded discussions to json format 
  */
 public class Page4WebMD extends PageBase {
-	//TODO: You need to extend this wrapper to deal with threaded discussion across multiple pages
-	// 1. get the right "next page"
-	// 2. avoid any duplication
-	// 3. extract the right reply-to relation when across pages
-	
 	public Page4WebMD() {
 		super();
 		

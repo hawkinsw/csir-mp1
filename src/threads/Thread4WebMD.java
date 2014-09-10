@@ -9,6 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import java.net.URL;
+import java.net.MalformedURLException;
+
 import java.lang.Thread;
 import java.lang.InterruptedException;
 
@@ -37,6 +40,8 @@ public class Thread4WebMD extends ThreadBase {
 
 		/*
 		 * Assume that this is the starting page for a discussion.
+		 * 0. Find the title for this discussion.
+		 * 0.5. Create a "relative" URL to use as the default reply to id.
 		 * 1. Generate a list of pages that relate to this thread.
 		 * 2. One by one, 
 		 *    a. download that page.
@@ -47,6 +52,28 @@ public class Thread4WebMD extends ThreadBase {
 		 *    f. wait a set amount of time.
 		 */
 		System.out.println("Thread URL: " + m_threadURL);
+
+		/*
+		 * Step 0:
+		 */
+		Elements titleElements = doc.getElementsByClass("first_item_title_fmt");
+		for (Element titleElement : titleElements) {
+			if (!titleElement.text().equals("")) {
+				m_threadTitle = titleElement.text();
+				break;
+			}
+		}
+		System.out.println("Thread title: " + m_threadTitle);
+
+		/*
+		 * Step 0.5:
+		 */
+		m_defaultReplyToID = m_threadURL;
+		try {
+			URL threadURL = new URL(m_threadURL);
+			m_defaultReplyToID = threadURL.getPath();
+		} catch (MalformedURLException e) {
+		}
 
 		/*
 		 * Step 1:
@@ -108,6 +135,12 @@ public class Thread4WebMD extends ThreadBase {
 			 */
 			for (Post p : pagePosts) {
 				if (!m_posts.contains(p)) {
+					/*
+					 * We may need to reset the reply to id.
+					 */
+					if (p.getReplyToID() == null) {
+						p.setReplyToID(m_defaultReplyToID);
+					}
 					m_posts.add(p);
 				} else {
 					System.out.println("Skipping duplicate post.");
@@ -128,11 +161,15 @@ public class Thread4WebMD extends ThreadBase {
 		return true;
 	}
 
+	private String m_defaultReplyToID;
+
 	/**
 	 * Faux unit test for Thread4WebMD
 	 */
 	public static void main(String args[]) {
 		Thread4WebMD thread = new Thread4WebMD();
-		thread.parseThreadStartPage("./data/HTML/WebMD/APD/2658");
+		//thread.parseThreadStartPage("./data/HTML/WebMD/APD/2657");
+		thread.parseThreadStartPage("http://forums.webmd.com/3/anxiety-and-panic-disorders-exchange/forum/2657");
+		thread.save2Json("./data/json/WebMD/anxiety-and-panic-disorders/2657.json");
 	}
 }
