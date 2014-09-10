@@ -54,6 +54,19 @@ public abstract class PageBase {
 	 * date format helpers to normalize different date format across websites
 	 */
 	SimpleDateFormat m_dateParser, m_dateFormatter;
+
+	/**
+	 * The document being parsed.
+	 */
+	protected Document m_doc;
+
+	public Document getDocument() {
+		if (m_doc != null) {
+			return m_doc;
+		} else {
+			return null;
+		}
+	}
 	
 	/**
 	 * parse the given HTML and extract the discussion posts 

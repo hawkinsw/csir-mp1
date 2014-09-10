@@ -1,6 +1,10 @@
 package utils;
 
 import java.io.BufferedReader;
+import java.nio.charset.Charset;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -50,5 +54,23 @@ public class Utils {
 			return "";
 		}
 		return output;
+	}
+
+	public static void writeHTMLToFile(String html, String filename) {
+		try {
+			BufferedWriter writer = Files.newBufferedWriter(
+				Paths.get(filename),
+				Charset.forName("UTF-8")
+			);
+			writer.write(html, 0, html.length());
+
+			writer.close();
+		} catch (IOException ioex) {
+			System.out.println("ioex: " + ioex.toString());
+		}
+	}
+
+	public static String getComputingID() {
+		return "whh8b";
 	}
 }

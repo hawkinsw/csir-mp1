@@ -17,6 +17,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import structures.Post;
+import structures.ThreadPage;
+
+import utils.Utils;
 
 /**
  * Represent a discussion thread that may span 
@@ -30,6 +33,7 @@ public abstract class ThreadBase {
 	
 	public ThreadBase() {
 		m_posts = new ArrayList<Post>();
+		m_threadPages = new ArrayList<ThreadPage>();
 	}
 
 	/**
@@ -45,6 +49,8 @@ public abstract class ThreadBase {
 	 * constitute this thread.
 	 */
 	ArrayList<Post> m_posts;
+
+	ArrayList<ThreadPage> m_threadPages;
 	
 	/**
 	 * Parse a discussion thread from its first page.
@@ -120,5 +126,14 @@ public abstract class ThreadBase {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public boolean save2Html(String baseFilename) {
+		for (ThreadPage p : m_threadPages) {
+			Utils.writeHTMLToFile(p.getDocument().toString(),
+				baseFilename + "-p" + p.getID() + ".html"
+			);
+		}
+		return true;
 	}
 }

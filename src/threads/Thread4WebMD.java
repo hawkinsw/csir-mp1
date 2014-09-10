@@ -25,8 +25,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import structures.Post;
+import structures.ThreadPage;
 
 import pages.Page4WebMD;
+
+import utils.Utils;
 
 public class Thread4WebMD extends ThreadBase {
 	
@@ -146,6 +149,8 @@ public class Thread4WebMD extends ThreadBase {
 					System.out.println("Skipping duplicate post.");
 				}
 			}
+
+			m_threadPages.add(new ThreadPage(parsedPages, page.getDocument()));
 			parsedPages++;
 
 			/*
@@ -171,5 +176,6 @@ public class Thread4WebMD extends ThreadBase {
 		//thread.parseThreadStartPage("./data/HTML/WebMD/APD/2657");
 		thread.parseThreadStartPage("http://forums.webmd.com/3/anxiety-and-panic-disorders-exchange/forum/2657");
 		thread.save2Json("./data/json/WebMD/anxiety-and-panic-disorders/2657.json");
+		thread.save2Html("./data/HTML/WebMD/anxiety-and-panic-disorders/" + Utils.getComputingID() + "-" + "2657");
 	}
 }

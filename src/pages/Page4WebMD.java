@@ -45,6 +45,8 @@ public class Page4WebMD extends PageBase {
 		Element tmpElmA, tmpElmB;
 		String firstItemDate = null;
 
+		m_doc = doc;
+
 		/*
 		 * Each post in a thread is in a thread_fmt.
 		 * A thread_fmt has
