@@ -1,0 +1,4 @@
+To build and run:
+
+ant jar
+ant crawl
