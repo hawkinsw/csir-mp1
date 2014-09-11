@@ -122,15 +122,19 @@ public class Page4WebMD extends PageBase {
 			}
 			
 			//get post content (no title in WebMD)
-			tmpElmA = elm.getElementsByClass("post_fmt").first();		
-			tmpElms = tmpElmA.getElementsByClass("post_sig_fmt");
-			if (tmpElms != null && !tmpElms.isEmpty()) {//detach the signature part 
-				tmpElmB = tmpElms.first();
-				tmpElmB.remove();
+			Elements isPollElement = elm.getElementsByClass("exchange_poll_webx_rdr");
+			if (!isPollElement.isEmpty()) {
+				tmpElmA = isPollElement.first().getElementsByClass("text_fmt").first();
+			} else {
+				tmpElmA = elm.getElementsByClass("post_fmt").first();		
+				tmpElms = tmpElmA.getElementsByClass("post_sig_fmt");
+				if (tmpElms != null && !tmpElms.isEmpty()) {//detach the signature part 
+					tmpElmB = tmpElms.first();
+					tmpElmB.remove();
+				}
 			}
 			p.setContent(tmpElmA.text());
-			
-			m_posts.add(p);			
+			m_posts.add(p);
 		}
 		return !m_posts.isEmpty();
 	}	
